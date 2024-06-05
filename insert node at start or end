@@ -1,0 +1,50 @@
+#include <iostream>
+using namespace std;
+
+class Node{
+    public:
+    int val;
+    Node* next;
+    
+    Node(int data){
+        val= data;
+        next= NULL;
+    }
+};
+
+void insertAtHead(Node* &head, int n){
+    Node* new_node= new Node(n);
+    new_node->next=head;
+    head= new_node;
+}
+
+void insertAtEnd(Node* &head, int n){
+    Node* temp= head;
+    while(temp->next!=NULL){
+        temp= temp->next;
+    }
+    
+    //now we have temp at the desired position
+    temp->next= new Node(n);
+    
+}
+
+void display(Node* head){
+    Node* temp= head;
+    while(temp!=NULL){
+        cout<<temp->val<<"->";
+        temp= temp->next;
+    }
+    cout<<"NULL"<<endl;
+    
+}
+
+int main() {
+    Node* n= new Node(2);
+    insertAtHead(n, 1);
+    display(n);
+    insertAtEnd(n, 3);
+    display(n);
+
+    return 0;
+}
