@@ -1,0 +1,72 @@
+#include <iostream>
+using namespace std;
+
+class Node{
+    public:
+    int val;
+    Node* next;
+    
+    Node(int data){
+        val= data;
+        next=NULL;
+    }
+};
+
+void insertAtHead(Node* &head, int n){
+    Node* new_node= new Node(n);
+    new_node->next=head;
+    head= new_node;
+}
+
+void display(Node* head){
+    Node* temp= head;
+    while(temp!=NULL){
+        cout<<temp->val<<"->";
+        temp= temp->next;
+    }
+    cout<<"NULL"<<endl;
+}
+
+void deleteAtHead(Node* &head){
+    Node* temp= head;
+    head= temp->next;
+    free(temp);
+}
+
+void deleteAtEnd(Node* &head){
+    Node* second_last= head;
+    while((second_last->next->next)!=NULL){
+        second_last= second_last->next;
+    }
+    //second_last now points to the second last element
+    Node* temp= second_last->next;
+    second_last->next=NULL;
+    free(temp);
+}
+
+void deleteAtN(Node* &head, int n){
+    Node* beforeN= head;
+    int c=0;
+    while(c-1!=n){
+        beforeN= beforeN->next;
+        c++;
+    }
+    Node* temp= beforeN->next;
+    beforeN->next= beforeN->next->next;
+    free(temp);
+}
+
+int main() {
+    Node* n= new Node(1);
+    insertAtHead(n, 2);
+    insertAtHead(n, 3);
+    insertAtHead(n, 4);
+    insertAtHead(n, 5);
+    insertAtHead(n, 6);
+    deleteAtHead(n);
+    deleteAtEnd(n);
+    deleteAtN(n, 1);
+    display(n);
+
+    return 0;
+}
