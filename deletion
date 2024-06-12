@@ -45,9 +45,13 @@ void deleteAtEnd(Node* &head){
 }
 
 void deleteAtN(Node* &head, int n){
+    if (n==0){
+        deleteAtHead(head);
+        return; 
+    }
     Node* beforeN= head;
     int c=0;
-    while(c-1!=n){
+    while(c!=n-1){
         beforeN= beforeN->next;
         c++;
     }
