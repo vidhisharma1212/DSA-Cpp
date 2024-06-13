@@ -1,0 +1,75 @@
+#include <iostream>
+using namespace std;
+
+class Node{
+    public:
+    int val;
+    Node* next;
+    Node(int data){
+        val=data;
+        next=NULL;
+    }
+};
+
+class LinkedList{
+    public:
+    Node* head;
+    LinkedList(){
+         head=NULL;
+    }
+    
+    void insertAtTail(int data){
+        Node* new_node= new Node(data);
+        if (head==NULL){
+            head= new_node;
+            return;
+        }
+        
+        Node* temp= head;
+        while(temp->next!=NULL){
+            temp=temp->next;
+        }
+        temp->next= new_node;
+        
+    }
+    
+    void display(){
+        Node* temp= head;
+        while(temp!=NULL){
+            cout<<temp->val<<"->";
+            temp= temp->next;
+        }
+        cout<<"NULL"<<endl;
+    }
+     
+};
+
+void deleteAlternateNodes(Node* &head){ //ques1
+    Node* temp1=head;
+    while(temp1!=NULL && temp1->next!=NULL){
+        Node* temp2= temp1->next;
+        temp1->next= temp1->next->next;
+        free(temp2);
+        temp1= temp1->next;
+    }
+}
+
+int main() {
+    LinkedList l;
+    l.insertAtTail(0);
+    l.insertAtTail(1);
+    l.insertAtTail(2);
+    l.insertAtTail(3);
+    l.insertAtTail(4);
+    l.insertAtTail(5);
+    l.insertAtTail(6);
+    l.insertAtTail(7);
+    l.insertAtTail(8);
+    l.insertAtTail(9);
+    l.display();
+//ques1    
+    deleteAlternateNodes(l.head);
+    l.display();
+
+    return 0;
+}
