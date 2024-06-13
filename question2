@@ -1,0 +1,84 @@
+#include <iostream>
+using namespace std;
+
+class Node{
+    public:
+    int val;
+    Node* next;
+    Node(int data){
+        val=data;
+        next=NULL;
+    }
+};
+
+class LinkedList{
+    public:
+    Node* head;
+    LinkedList(){
+         head=NULL;
+    }
+    
+    void insertAtTail(int data){
+        Node* new_node= new Node(data);
+        if (head==NULL){
+            head= new_node;
+            return;
+        }
+        
+        Node* temp= head;
+        while(temp->next!=NULL){
+            temp=temp->next;
+        }
+        temp->next= new_node;
+        
+    }
+    
+    void display(){
+        Node* temp= head;
+        while(temp!=NULL){
+            cout<<temp->val<<"->";
+            temp= temp->next;
+        }
+        cout<<"NULL"<<endl;
+    }
+     
+};
+
+void deleteDuplicates(Node* &head){
+    Node* temp= head;
+    while(temp->next!=NULL){
+        if (temp->val==temp->next->val){
+            Node* freethis= temp->next;
+            temp->next=temp->next->next;
+            free(freethis);
+            
+            if (temp->val==temp->next->val){
+            Node* freethis= temp->next;
+            temp->next=temp->next->next;
+            free(freethis);
+            }
+        }
+        
+        temp=temp->next;
+    }
+}
+
+int main() {
+    LinkedList l;
+    l.insertAtTail(0);
+    l.insertAtTail(0);
+    l.insertAtTail(2);
+    l.insertAtTail(2);
+    l.insertAtTail(4);
+    l.insertAtTail(4);
+    l.insertAtTail(4);
+    l.insertAtTail(9);
+    l.insertAtTail(9);
+    l.insertAtTail(18);
+    l.display();
+    
+    deleteDuplicates(l.head);
+    l.display();
+
+    return 0;
+}
