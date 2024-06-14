@@ -1,0 +1,127 @@
+#include <iostream>
+using namespace std;
+
+class Node{
+    public:
+    int val;
+    Node* next;
+    Node(int data){
+        val=data;
+        next=NULL;
+    }
+};
+
+class LinkedList{
+    public:
+    Node* head;
+    
+    LinkedList(){
+        head=NULL;
+    }
+    
+    void insertAtTail(int data){
+        Node* newnode= new Node(data);
+        if (head==NULL){
+            head= newnode;
+            return;
+        }
+        Node* temp= head;
+        while(temp->next!=NULL){
+            temp=temp->next;
+        }
+        temp->next=newnode;
+    }
+    
+    void insertAtHead(int data){
+        Node* newnode= new Node(data);
+        if (head==NULL){
+            head= newnode;
+            return;
+        }
+        newnode->next=head;
+        head=newnode;
+    }
+    
+    void display(){
+        Node* temp= head;
+        while(temp!=NULL){
+            cout<<temp->val<<"->";
+            temp=temp->next;
+        }
+        cout<<"NULL\n";
+    }
+    
+    
+};
+
+int leng(Node* head){
+        int length=0;
+        Node* temp= head;
+        while(temp!=NULL){
+            length++;
+            temp=temp->next;
+        }
+        return length;
+    }
+
+void placePtr(Node* &temp, int leng){
+    while(leng--){
+        temp=temp->next;
+    }
+}
+
+Node* intersection(Node* h1, Node* h2){
+    Node* t1=h1;
+    Node* t2=h2;
+    
+    int ld= leng(h1)-leng(h2);
+    
+    if (ld<0){
+        placePtr(t2,ld);
+    }
+    else if(ld>1){
+        placePtr(t1,ld);
+    }
+    while(t1!=NULL){
+        if(t1==t2){
+            return t1;
+        }
+        t1=t1->next;
+        t2=t2->next;
+    }
+}
+
+int main() {
+    
+    LinkedList l1;
+    l1.insertAtHead(3);
+    l1.insertAtHead(2);
+    l1.insertAtHead(1);
+    l1.insertAtHead(40);
+    l1.insertAtHead(20);
+    l1.insertAtHead(1001);
+    l1.insertAtHead(0);
+    l1.insertAtTail(4);
+    l1.insertAtTail(5);
+    l1.insertAtHead(100);
+    l1.insertAtTail(400);
+    l1.display(); 
+    cout<<leng(l1.head)<<endl; 
+//100->0->1001->20->40->1->2->3->4->5->400->NULL
+//11
+    
+    LinkedList l2;
+    l2.insertAtHead(6);
+    l2.insertAtHead(9);
+    l2.insertAtHead(10);
+    l2.head->next->next->next= l1.head->next->next->next->next->next->next;
+    l2.display(); 
+    cout<<leng(l2.head)<<endl; 
+//10->9->6->2->3->4->5->400->NULL
+//8
+
+    cout<<intersection(l1.head, l2.head)<<"->"<<intersection(l1.head, l2.head)->val<<endl;
+//0x91bed0->2
+
+    return 0;
+}
