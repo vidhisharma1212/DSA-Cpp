@@ -120,7 +120,12 @@ int main() {
 //10->9->6->2->3->4->5->400->NULL
 //8
 
+if (intersection(l1.head, l2.head)){
     cout<<intersection(l1.head, l2.head)<<"->"<<intersection(l1.head, l2.head)->val<<endl;
+}
+else{
+cout<<"No intersection";
+}
 //0x91bed0->2
 
     return 0;
