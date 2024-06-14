@@ -1,0 +1,95 @@
+#include <iostream>
+using namespace std;
+
+class Node{
+    public:
+    int val;
+    Node* next;
+    Node(int data){
+        val=data;
+        next=NULL;
+    }
+};
+
+class LinkedList{
+    public:
+    Node* head;
+    
+    LinkedList(){
+        head=NULL;
+    }
+    
+    void insertAtTail(int data){
+        Node* newnode= new Node(data);
+        if (head==NULL){
+            head= newnode;
+            return;
+        }
+        Node* temp= head;
+        while(temp->next!=NULL){
+            temp=temp->next;
+        }
+        temp->next=newnode;
+    }
+    
+    void insertAtHead(int data){
+        Node* newnode= new Node(data);
+        if (head==NULL){
+            head= newnode;
+            return;
+        }
+        newnode->next=head;
+        head=newnode;
+    }
+    
+    void display(){
+        Node* temp= head;
+        while(temp!=NULL){
+            cout<<temp->val<<"->";
+            temp=temp->next;
+        }
+        cout<<"NULL\n";
+    }
+    
+    
+};
+
+int leng(Node* head){
+        int length=0;
+        Node* temp= head;
+        while(temp!=NULL){
+            length++;
+            temp=temp->next;
+        }
+        return length;
+    }
+
+void deleteKthFromLast(Node* &head, int k){
+    Node* temp= head;
+    int l= leng(head)-k-1;
+    while(l--){
+        temp=temp->next;
+    }
+    Node* freethis= temp->next;
+    temp->next= temp->next->next;
+    free(freethis);
+}
+
+int main() {
+    
+    LinkedList l1;
+    l1.insertAtHead(3);
+    l1.insertAtHead(2);
+    l1.insertAtHead(1);
+    l1.insertAtHead(0);
+    l1.insertAtTail(4);
+    l1.insertAtTail(5);
+    l1.display(); 
+    cout<<leng(l1.head)<<endl; 
+    
+    deleteKthFromLast(l1.head, 2);
+    l1.display(); 
+    cout<<leng(l1.head)<<endl; 
+
+    return 0;
+}
