@@ -1,0 +1,95 @@
+#include <iostream>
+using namespace std;
+
+class Node{
+    public:
+    int val;
+    Node* next;
+    Node(int data){
+        val=data;
+        next=NULL;
+    }
+};
+
+class LinkedList{
+    public:
+    Node* head;
+    Node* tail;
+    LinkedList(){
+        head=NULL;
+    }
+    void insertAtTail(int data){
+        Node* newnode= new Node(data);
+        if (head==NULL){
+            head=newnode;
+            return;
+        }
+        Node* temp=head;
+        while (temp->next!=NULL){
+            temp=temp->next;
+        }
+        temp->next= newnode;
+        tail=newnode;
+    }
+    
+    void insertAtHead(int data){
+        Node* newnode= new Node(data);
+        if (head==NULL){
+            head=newnode;
+            return;
+        }
+        newnode->next= head;
+        head=newnode;
+    }
+    
+    void display(){
+        Node* temp=head;
+        while (temp!=NULL){
+            cout<<temp->val<<"->";
+            temp=temp->next;
+        }
+        cout<<"NULL\n";
+    }
+    
+};
+
+void cycleOrNot(Node* head){ //by slow fast pointer
+    Node* slow= head;
+    Node* fast= head;
+    //int cycle=0;//false
+    
+    while(fast!=NULL && fast->next!=NULL){
+        slow= slow->next;
+        fast= fast->next->next;
+        if (fast==slow){
+            //cycle=1; //true
+            cout<<"Yes it has a cycle\n";
+            return;
+        }
+    }
+    cout<<"No, it doesn't have a cycle\n";
+}
+
+int main() {
+    LinkedList l1;
+    l1.insertAtHead(3);
+    l1.insertAtHead(2);
+    l1.insertAtHead(1);
+    l1.insertAtTail(4);
+    l1.insertAtTail(5);
+    l1.insertAtTail(6);
+    l1.insertAtTail(7);
+    l1.insertAtTail(8);
+    
+    l1.display();
+    cycleOrNot(l1.head);
+//beginning of making a cycle 
+    l1.head->next->next->next->next->next->next->next->next=l1.head->next->next;
+//end of making a cycle  
+    //l1.display();
+    //l2.display();
+ 
+ cycleOrNot(l1.head);
+ 
+    return 0;
+}
