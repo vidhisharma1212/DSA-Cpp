@@ -1,0 +1,89 @@
+#include <iostream>
+using namespace std;
+
+class Node{
+    public:
+    int val;
+    Node* next;
+    Node(int data){
+        val=data;
+        next=NULL;
+    }
+};
+
+class LinkedList{
+    public:
+    Node* head;
+    LinkedList(){
+        head=NULL;
+    }
+    void insertAtTail(int data){
+        Node* newnode= new Node(data);
+        if (head==NULL){
+            head=newnode;
+            return;
+        }
+        Node* temp=head;
+        while (temp->next!=NULL){
+            temp=temp->next;
+        }
+        temp->next= newnode;
+    }
+    
+    void insertAtHead(int data){
+        Node* newnode= new Node(data);
+        if (head==NULL){
+            head=newnode;
+            return;
+        }
+        newnode->next= head;
+        head=newnode;
+    }
+    
+    void display(){
+        Node* temp=head;
+        while (temp!=NULL){
+            cout<<temp->val<<"->";
+            temp=temp->next;
+        }
+        cout<<"NULL\n";
+    }
+    
+};
+
+void removeCycle(Node* head){
+    Node* slow= head;
+    Node* fast= head;
+    do{
+        slow=slow->next;
+        fast=fast->next->next;
+    }while(slow!=fast);
+    
+    fast=head;
+    while(slow->next!=fast->next){
+        slow=slow->next;
+        fast=fast->next;
+    }
+    slow->next= NULL;
+}
+
+int main() {
+    LinkedList l1;
+    l1.insertAtHead(3);
+    l1.insertAtHead(2);
+    l1.insertAtHead(1);
+    l1.insertAtTail(4);
+    l1.insertAtTail(5);
+    l1.insertAtTail(6);
+    l1.insertAtTail(7);
+    l1.insertAtTail(8);
+    
+//beginning of making a cycle 
+    l1.head->next->next->next->next->next->next->next->next=l1.head->next->next;
+//end of making a cycle  
+ 
+removeCycle(l1.head);
+l1.display();
+ 
+    return 0;
+}
