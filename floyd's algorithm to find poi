@@ -1,0 +1,101 @@
+#include <iostream>
+using namespace std;
+
+class Node{
+    public:
+    int val;
+    Node* next;
+    Node(int data){
+        val=data;
+        next=NULL;
+    }
+};
+
+class LinkedList{
+    public:
+    Node* head;
+    LinkedList(){
+        head=NULL;
+    }
+    void insertAtTail(int data){
+        Node* newnode= new Node(data);
+        if (head==NULL){
+            head=newnode;
+            return;
+        }
+        Node* temp=head;
+        while (temp->next!=NULL){
+            temp=temp->next;
+        }
+        temp->next= newnode;
+    }
+    
+    void insertAtHead(int data){
+        Node* newnode= new Node(data);
+        if (head==NULL){
+            head=newnode;
+            return;
+        }
+        newnode->next= head;
+        head=newnode;
+    }
+    
+    void display(){
+        Node* temp=head;
+        while (temp!=NULL){
+            cout<<temp->val<<"->";
+            temp=temp->next;
+        }
+        cout<<"NULL\n";
+    }
+    
+};
+
+void findCycle(Node* head){ //by floyd's algorithm
+    Node* slow= head;
+    Node* fast= head;
+    
+    while(fast!=NULL && fast->next!=NULL){
+        slow= slow->next;
+        fast= fast->next->next;
+        if (fast==slow){
+            // here the element is 7 where they meet, but this is not as same as 3, where the cycle and the chain meet ...
+            //now we will keep slow here only, at 7, but we will move fast to the start of the list (chain side). 
+            fast=head;
+            //now , fast and slow, both are equidistant from 3
+            break;
+        }
+    }
+    while(true){
+        if(fast==slow){
+            cout<<"They meet at the pointer "<< fast<<"where the value is "<<fast->val<<endl;
+            return;
+        }
+        fast=fast->next;
+        slow=slow->next;
+    }
+    
+}
+
+int main() {
+    LinkedList l1;
+    l1.insertAtHead(3);
+    l1.insertAtHead(2);
+    l1.insertAtHead(1);
+    l1.insertAtTail(4);
+    l1.insertAtTail(5);
+    l1.insertAtTail(6);
+    l1.insertAtTail(7);
+    l1.insertAtTail(8);
+    
+    l1.display();
+//beginning of making a cycle 
+    l1.head->next->next->next->next->next->next->next->next=l1.head->next->next;
+//end of making a cycle  
+    //l1.display();
+    //l2.display();
+ 
+ findCycle(l1.head);
+ 
+    return 0;
+}
