@@ -1,0 +1,114 @@
+//segmentation fault to be fixed in l2
+
+#include <iostream>
+using namespace std;
+
+class Node{
+    public:
+    int val;
+    Node* next;
+    Node(int data){
+        val=data;
+        next=NULL;
+    }
+};
+
+class LinkedList{
+    public:
+    Node* head;
+    LinkedList(){
+        head=NULL;
+    }
+    void insertAtTail(int data){
+        Node* newnode= new Node(data);
+        if (head==NULL){
+            head=newnode;
+            return;
+        }
+        Node* temp=head;
+        while (temp->next!=NULL){
+            temp=temp->next;
+        }
+        temp->next= newnode;
+    }
+    
+    void insertAtHead(int data){
+        Node* newnode= new Node(data);
+        if (head==NULL){
+            head=newnode;
+            return;
+        }
+        newnode->next= head;
+        head=newnode;
+    }
+    
+    void display(){
+        Node* temp=head;
+        while (temp!=NULL){
+            cout<<temp->val<<"->";
+            temp=temp->next;
+        }
+        cout<<"NULL\n";
+    }
+};
+
+bool palindrone(Node* head){ //by slow fast pointer
+    Node* slow= head;
+    Node* fast= head;
+    
+    while(fast!=NULL && fast->next!=NULL){
+        slow= slow->next;
+        fast= fast->next->next;
+    } //1. now slow is pointing to the middle element
+    
+    //2. breaking linked list in the middle
+    Node* curr= slow->next;
+    Node* prev=slow;
+    slow->next = NULL;
+    
+    
+    //3. reversing the second hand of the linkedlist 
+    
+    while(curr!=NULL){
+        Node* rightofcurr= curr->next;
+        curr->next= prev;
+        prev=curr;
+        curr=rightofcurr;
+    }
+    
+    Node* head1= head;
+    Node* head2= prev;
+    
+    while(head1){
+        if(head1->val!=head2->val){
+            return false;
+        }
+        head1=head1->next;
+        head2=head2->next;
+    }
+    return true;
+}
+int main() {
+    LinkedList l1;
+    l1.insertAtHead(3);
+    l1.insertAtHead(2);
+    l1.insertAtHead(1);
+    l1.insertAtTail(4);
+    l1.insertAtTail(5);
+    l1.insertAtTail(6);
+    l1.display();
+    
+    LinkedList l2;
+    l2.insertAtHead(3);
+    l2.insertAtHead(2);
+    l2.insertAtHead(1);
+    l2.insertAtTail(3);
+    l2.insertAtTail(2);
+    l2.insertAtTail(1);
+    l2.display();
+    
+    cout<<palindrone(l1.head)<<endl;
+    cout<<palindrone(l2.head)<<endl;
+    
+    return 0;
+}
